@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,22 +8,62 @@
     android:orientation="vertical"
     tools:context=".ui.MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="12dp"
+            android:src="@drawable/ic_back"
+            app:tint="?attr/colorControlNormal" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="DongshinBuddy"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolBar"
+        android:layout_above="@+id/suggestionChipGroup"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"/>
 
+    <com.google.android.material.chip.ChipGroup
+        android:layout_above="@id/inputContainer"
+        android:id="@+id/suggestionChipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:chipSpacingVertical="0dp"
+        android:layoutDirection="rtl"
+        android:padding="8dp"/>
+
     <LinearLayout
+        android:id="@+id/inputContainer"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="8dp"
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,7 +84,7 @@
                 android:paddingBottom="12dp"
                 android:textSize="16sp" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sendButton"
@@ -52,11 +92,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
-            android:src="@android:drawable/ic_menu_send"
+            android:src="@drawable/ic_send"
+            app:elevation="0dp"
             app:backgroundTint="#0056B3"
+            app:tint="@android:color/white"
             app:fabCustomSize="48dp"
             tools:ignore="ContentDescription" />
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

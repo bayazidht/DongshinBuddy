@@ -2,11 +2,13 @@ package com.bayazidht.dongshinbuddy.ui
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.adapter.ChatAdapter
 import com.bayazidht.dongshinbuddy.api.RetrofitClient
 import com.bayazidht.dongshinbuddy.data.local.DSUPrefs
@@ -14,6 +16,7 @@ import com.bayazidht.dongshinbuddy.data.repository.ChatRepository
 import com.bayazidht.dongshinbuddy.databinding.ActivityMainBinding
 import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.viewmodel.ChatViewModel
+import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
@@ -44,7 +47,42 @@ class MainActivity : AppCompatActivity() {
 
         val autoQuery = intent.getStringExtra("PREFILLED_QUERY")
         if (autoQuery != null) {
+            binding.suggestionChipGroup.visibility = View.GONE
             sendMessage(autoQuery)
+        }
+
+        setupSuggestionChips()
+    }
+
+    private fun setupSuggestionChips() {
+        val suggestions = listOf(
+            "Campus Map",
+            "Dormitory Rules",
+            "Today's Menu",
+            "Daiso Location",
+            "Library Hours",
+            "International Building",
+            "How to pay tuition fee?",
+            "Bus Schedule",
+            "Nearby Halal Food",
+            "Scholarship Info",
+            "Office of International Affairs",
+            "Gym and Fitness Center",
+            "Internet/Wi-Fi Setup",
+            "Student ID card",
+            "Central Library"
+        )
+
+        val chipGroup = binding.suggestionChipGroup
+
+        for (text in suggestions) {
+            val chip = layoutInflater.inflate(R.layout.item_chip, chipGroup, false) as Chip
+            chip.text = text
+            chip.setOnClickListener {
+                sendMessage(text)
+                binding.suggestionChipGroup.visibility = View.GONE
+            }
+            chipGroup.addView(chip)
         }
     }
 
@@ -62,6 +100,9 @@ class MainActivity : AppCompatActivity() {
             if (userText.isNotBlank()) {
                 sendMessage(userText)
             }
+        }
+        binding.backButton.setOnClickListener {
+            finish()
         }
     }
 
