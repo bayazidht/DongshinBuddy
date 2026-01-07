@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bayazidht.dongshinbuddy.ChatMessage
+import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.databinding.ItemChatBinding
 
 class ChatAdapter(private val chatList: List<ChatMessage>) :

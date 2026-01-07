@@ -1,7 +1,7 @@
 package com.bayazidht.dongshinbuddy.api
 
-import com.bayazidht.dongshinbuddy.GroqRequest
-import com.bayazidht.dongshinbuddy.GroqResponse
+import com.bayazidht.dongshinbuddy.model.GroqRequest
+import com.bayazidht.dongshinbuddy.model.GroqResponse
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.Headers

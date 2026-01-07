@@ -1,4 +1,4 @@
-package com.bayazidht.dongshinbuddy
+package com.bayazidht.dongshinbuddy.model
 
 data class GroqRequest(
     val model: String,

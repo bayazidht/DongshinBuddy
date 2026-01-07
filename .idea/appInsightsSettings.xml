@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.bayazidht.dongshinbuddy" />
+                  <option name="mobileSdkAppId" value="1:875765846162:android:ee56ec1260abdda865164b" />
+                  <option name="projectId" value="dongshinbuddy" />
+                  <option name="projectNumber" value="875765846162" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
