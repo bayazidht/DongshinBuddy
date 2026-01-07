@@ -11,7 +11,7 @@ interface GroqService {
     @Headers("Content-Type: application/json")
     @POST("v1/chat/completions")
     suspend fun getCompletion(
-        @Header("Authorization") token: String, // এখানে "Bearer YOUR_KEY" পাঠাতে হবে
+        @Header("Authorization") token: String,
         @Body request: GroqRequest
     ): GroqResponse
 }
