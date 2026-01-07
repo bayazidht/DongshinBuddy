@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.secrets)
-    id("com.google.gms.google-services")
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -53,16 +53,18 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.kotlinx.coroutines.android)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.firestore)
+
+    implementation(libs.generativeai)
+
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
-    implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-firestore")
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-
-    implementation("io.noties.markwon:core:4.6.2")
+    implementation(libs.core)
 }

@@ -66,9 +66,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(query: String) {
-        viewModel.messages.add(ChatMessage(query, true))
+        val userMsg = ChatMessage(query, true)
+        viewModel.messages.add(userMsg)
         chatAdapter.notifyItemInserted(viewModel.messages.size - 1)
         binding.messageInput.text.clear()
+        binding.chatRecyclerView.smoothScrollToPosition(viewModel.messages.size - 1)
 
         viewModel.sendMessage { position ->
             runOnUiThread {
