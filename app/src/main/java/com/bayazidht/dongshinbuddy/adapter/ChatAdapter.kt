@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.databinding.ItemChatBinding
+import io.noties.markwon.Markwon
 
 class ChatAdapter(private val chatList: List<ChatMessage>) :
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
@@ -23,6 +24,7 @@ class ChatAdapter(private val chatList: List<ChatMessage>) :
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chatList[position]
+        val markwon = Markwon.create(holder.itemView.context)
 
         with(holder.binding) {
             if (chat.isUser) {
@@ -32,7 +34,7 @@ class ChatAdapter(private val chatList: List<ChatMessage>) :
             } else {
                 buddyContainer.visibility = View.VISIBLE
                 userContainer.visibility = View.GONE
-                aiText.text = chat.message
+                markwon.setMarkdown(aiText, chat.message)
             }
         }
     }
