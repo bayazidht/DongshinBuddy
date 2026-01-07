@@ -28,11 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setupSystemBars()
 
         dsuPrefs = DSUPrefs(this)
         val repository = ChatRepository(RetrofitClient.groqService, FirebaseFirestore.getInstance())
@@ -47,8 +44,9 @@ class MainActivity : AppCompatActivity() {
 
         val autoQuery = intent.getStringExtra("PREFILLED_QUERY")
         if (autoQuery != null) {
-            binding.suggestionChipGroup.visibility = View.GONE
             sendMessage(autoQuery)
+        } else {
+            binding.messageInput.requestFocus()
         }
 
         setupSuggestionChips()
@@ -58,17 +56,13 @@ class MainActivity : AppCompatActivity() {
         val suggestions = listOf(
             "Campus Map",
             "Dormitory Rules",
-            "Today's Menu",
             "Daiso Location",
             "Library Hours",
             "International Building",
             "How to pay tuition fee?",
             "Bus Schedule",
             "Nearby Halal Food",
-            "Scholarship Info",
-            "Office of International Affairs",
             "Gym and Fitness Center",
-            "Internet/Wi-Fi Setup",
             "Student ID card",
             "Central Library"
         )
@@ -80,7 +74,6 @@ class MainActivity : AppCompatActivity() {
             chip.text = text
             chip.setOnClickListener {
                 sendMessage(text)
-                binding.suggestionChipGroup.visibility = View.GONE
             }
             chipGroup.addView(chip)
         }
@@ -107,6 +100,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(query: String) {
+        if (binding.suggestionChipGroup.visibility == View.VISIBLE) {
+            binding.suggestionChipGroup.visibility = View.GONE
+        }
+
         val userMsg = ChatMessage(query, true)
         viewModel.messages.add(userMsg)
         chatAdapter.notifyItemInserted(viewModel.messages.size - 1)
@@ -138,13 +135,5 @@ class MainActivity : AppCompatActivity() {
                 Log.e("UpdateCheck", "Failed: ${error.message}")
             }
         )
-    }
-
-    private fun setupSystemBars() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
     }
 }
