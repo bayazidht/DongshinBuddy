@@ -34,6 +34,12 @@ class HomeActivity : AppCompatActivity() {
                 openChat(chip.text.toString())
             }
         }
+
+        binding.btnCampusMap.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("PREFILLED_QUERY", "Show me all campus buildings and locations with links")
+            startActivity(intent)
+        }
     }
 
     private fun openChat(query: String) {

@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:text="Hello! I am DongshinBuddy."
             android:textColor="@color/white"
+            android:autoLink="all"
+            android:linksClickable="true"
             android:textSize="16sp" />
     </LinearLayout>
 
