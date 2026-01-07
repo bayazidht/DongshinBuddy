@@ -41,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         setupClickListeners()
 
         checkForDataUpdates(repository)
+
+        val autoQuery = intent.getStringExtra("PREFILLED_QUERY")
+        if (autoQuery != null) {
+            sendMessage(autoQuery)
+        }
     }
 
     private fun setupChatRecyclerView() {
@@ -55,20 +60,24 @@ class MainActivity : AppCompatActivity() {
         binding.sendButton.setOnClickListener {
             val userText = binding.messageInput.text.toString().trim()
             if (userText.isNotBlank()) {
-                viewModel.messages.add(ChatMessage(userText, true))
-                chatAdapter.notifyItemInserted(viewModel.messages.size - 1)
-                binding.messageInput.text.clear()
+                sendMessage(userText)
+            }
+        }
+    }
 
-                viewModel.sendMessage() { position ->
-                    runOnUiThread {
-                        if (position == -1) {
-                            chatAdapter.notifyItemInserted(viewModel.messages.size - 1)
-                        } else {
-                            chatAdapter.notifyItemChanged(position)
-                        }
-                        binding.chatRecyclerView.smoothScrollToPosition(viewModel.messages.size - 1)
-                    }
+    private fun sendMessage(query: String) {
+        viewModel.messages.add(ChatMessage(query, true))
+        chatAdapter.notifyItemInserted(viewModel.messages.size - 1)
+        binding.messageInput.text.clear()
+
+        viewModel.sendMessage { position ->
+            runOnUiThread {
+                if (position == -1) {
+                    chatAdapter.notifyItemInserted(viewModel.messages.size - 1)
+                } else {
+                    chatAdapter.notifyItemChanged(position)
                 }
+                binding.chatRecyclerView.smoothScrollToPosition(viewModel.messages.size - 1)
             }
         }
     }
