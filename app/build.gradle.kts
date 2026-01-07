@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.secrets)
 }
 
 android {
@@ -37,7 +38,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
-
+        buildConfig = true
     }
 }
 

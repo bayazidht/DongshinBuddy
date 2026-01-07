@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bayazidht.dongshinbuddy.BuildConfig
 import com.bayazidht.dongshinbuddy.ChatMessage
 import com.bayazidht.dongshinbuddy.GroqMessage
 import com.bayazidht.dongshinbuddy.GroqRequest
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendMessageToGroq(userQuery: String) {
-        val apiKey = "bearer "
+        val apiKey = "bearer ${BuildConfig.GROQ_API_KEY}"
 
         val systemPrompt = "You are DongshinBuddy, an assistant for Dongshin University. Use this context to answer: ${UniversityData.dsuContext}"
 
