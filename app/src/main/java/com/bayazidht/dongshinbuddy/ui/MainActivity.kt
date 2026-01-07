@@ -114,16 +114,16 @@ class MainActivity : AppCompatActivity() {
         val thinkingPosition = messages.size - 1
 
         val groqMessages = mutableListOf<GroqMessage>()
-
         groqMessages.add(GroqMessage(role = "system", content = finalContext))
 
-        for (i in 0 until messages.size - 1) {
-            val role = if (messages[i].isUser) "user" else "assistant"
-            groqMessages.add(GroqMessage(role = role, content = messages[i].message))
+        val chatHistory = if (messages.size > 5) messages.takeLast(4) else messages
+        for (i in 0 until chatHistory.size - 1) {
+            val role = if (chatHistory[i].isUser) "user" else "assistant"
+            groqMessages.add(GroqMessage(role = role, content = chatHistory[i].message))
         }
 
         val request = GroqRequest(
-            model = "llama-3.3-70b-versatile",
+            model = "llama-3.1-8b-instant",
             messages = groqMessages
         )
 
