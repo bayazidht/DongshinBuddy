@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bayazidht.dongshinbuddy.BuildConfig
@@ -39,17 +40,25 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        chatAdapter = ChatAdapter(messages)
-        binding.chatRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.chatRecyclerView.adapter = chatAdapter
+        setupChatRecyclerView()
+        setupClickListeners()
+    }
 
+    private fun setupChatRecyclerView() {
+        chatAdapter = ChatAdapter(messages)
+        val layoutManager = LinearLayoutManager(this)
+        layoutManager.stackFromEnd = true
+        binding.chatRecyclerView.layoutManager = layoutManager
+        binding.chatRecyclerView.adapter = chatAdapter
+    }
+
+    private fun setupClickListeners() {
         binding.sendButton.setOnClickListener {
             val userText = binding.messageInput.text.toString().trim()
             if (userText.isNotBlank()) {
