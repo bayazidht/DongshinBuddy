@@ -40,10 +40,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
-        android:layout_above="@+id/suggestionChipGroup"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolBar"
+        android:clipToPadding="false"
+        android:paddingBottom="70dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"/>
 
@@ -54,16 +56,19 @@
         android:layout_height="wrap_content"
         app:chipSpacingVertical="0dp"
         android:layoutDirection="rtl"
-        android:padding="8dp"/>
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"/>
 
     <LinearLayout
+        android:background="@drawable/shadow_gradient"
         android:id="@+id/inputContainer"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
+        android:elevation="4dp"
+        android:padding="12dp"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:gravity="center_vertical">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
@@ -95,10 +100,11 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_send"
+            app:backgroundTint="@color/accent"
+            app:tint="@color/white"
             app:elevation="0dp"
-            app:backgroundTint="#0056B3"
-            app:tint="@android:color/white"
-            app:fabCustomSize="48dp"
+            android:stateListAnimator="@null"
+            app:fabCustomSize="46dp"
             tools:ignore="ContentDescription" />
 
     </LinearLayout>

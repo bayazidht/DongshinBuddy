@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
 
     <LinearLayout
-        android:id="@+id/buddyContainer"
+        android:id="@+id/aiContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginEnd="64dp"
         android:background="@drawable/bg_ai_chat_bubble"
-        android:padding="12dp">
+        android:padding="10dp">
         <TextView
             android:id="@+id/aiText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hello! I am DongshinBuddy."
-            android:textColor="@color/white"
+            android:textColor="#D8FFFFFF"
             android:autoLink="all"
             android:linksClickable="true"
             android:textSize="16sp" />
@@ -31,7 +32,7 @@
         android:layout_gravity="end"
         android:layout_marginStart="64dp"
         android:background="@drawable/bg_user_chat_bubble"
-        android:padding="12dp"
+        android:padding="10dp"
         android:layout_marginTop="8dp">
         <TextView
             android:id="@+id/userText"

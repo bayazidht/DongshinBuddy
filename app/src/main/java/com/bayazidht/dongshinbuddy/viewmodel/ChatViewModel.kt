@@ -26,7 +26,7 @@ class ChatViewModel(private val repository: ChatRepository) : ViewModel() {
 
     fun sendMessage(onResponse: (Int) -> Unit) {
         val userQuery = messages.last().message
-        val thinkingMessage = ChatMessage("Thinking...", false)
+        val thinkingMessage = ChatMessage("Typing...", false)
         messages.add(thinkingMessage)
         val thinkingPosition = messages.size - 1
         onResponse(-1)
@@ -53,7 +53,7 @@ class ChatViewModel(private val repository: ChatRepository) : ViewModel() {
 
         for (i in 0 until chatHistory.size - 2) {
             val role = if (chatHistory[i].isUser) "user" else "assistant"
-            if (chatHistory[i].message != "Thinking...") {
+            if (chatHistory[i].message != "Typing...") {
                 groqMessages.add(GroqMessage(role = role, content = chatHistory[i].message))
             }
         }

@@ -3,6 +3,7 @@ package com.bayazidht.dongshinbuddy.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bayazidht.dongshinbuddy.R
@@ -10,24 +11,25 @@ import com.bayazidht.dongshinbuddy.adapter.ChatAdapter
 import com.bayazidht.dongshinbuddy.api.RetrofitClient
 import com.bayazidht.dongshinbuddy.data.local.DSUPrefs
 import com.bayazidht.dongshinbuddy.data.repository.ChatRepository
-import com.bayazidht.dongshinbuddy.databinding.ActivityMainBinding
 import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.viewmodel.ChatViewModel
 import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.core.view.isVisible
 import com.bayazidht.dongshinbuddy.data.local.ChipsData
+import com.bayazidht.dongshinbuddy.databinding.ActivityChatBinding
 
 class ChatActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityChatBinding
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var viewModel: ChatViewModel
     private lateinit var dsuPrefs: DSUPrefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityChatBinding.inflate(layoutInflater)
+        enableEdgeToEdge()
         setContentView(binding.root)
 
         dsuPrefs = DSUPrefs(this)

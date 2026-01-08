@@ -3,6 +3,10 @@ package com.bayazidht.dongshinbuddy.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.CycleInterpolator
+import android.view.animation.TranslateAnimation
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.databinding.ItemChatBinding
@@ -24,20 +28,42 @@ class ChatAdapter(private val chatList: List<ChatMessage>) :
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chatList[position]
+        val message = chat.message
         val markwon = Markwon.create(holder.itemView.context)
 
         with(holder.binding) {
             if (chat.isUser) {
                 userContainer.visibility = View.VISIBLE
-                buddyContainer.visibility = View.GONE
-                userText.text = chat.message
+                aiContainer.visibility = View.GONE
+                userText.text = message
             } else {
-                buddyContainer.visibility = View.VISIBLE
+                aiContainer.visibility = View.VISIBLE
                 userContainer.visibility = View.GONE
-                markwon.setMarkdown(aiText, chat.message)
+
+                if (message == "Typing...") {
+                    animateTyping(aiText)
+                } else {
+                    aiText.clearAnimation()
+                    markwon.setMarkdown(aiText, message)
+                }
             }
         }
     }
+
+    private fun animateTyping(textView: TextView) {
+        textView.text = "● ● ●"
+        val bounceAnim = TranslateAnimation(
+            0f, 0f,
+            0f, -15f
+        ).apply {
+            duration = 400
+            repeatMode = Animation.REVERSE
+            repeatCount = Animation.INFINITE
+            interpolator = CycleInterpolator(0.5f)
+        }
+        textView.startAnimation(bounceAnim)
+    }
+
 
     override fun getItemCount() = chatList.size
 }
