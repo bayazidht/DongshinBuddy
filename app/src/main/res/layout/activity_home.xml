@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,6 +46,7 @@
             </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardLogo"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:cardCornerRadius="30dp">
@@ -166,6 +168,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btnHelpdesk"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_rowWeight="1"
@@ -180,12 +183,12 @@
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:src="@drawable/ic_departments"
+                        android:src="@drawable/ic_helpdesk"
                         app:tint="?attr/colorControlNormal"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Departments"
+                        android:text="Helpdesk"
                         android:layout_marginTop="5dp"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -193,4 +196,5 @@
         </GridLayout>
 
     </LinearLayout>
+
 </ScrollView>

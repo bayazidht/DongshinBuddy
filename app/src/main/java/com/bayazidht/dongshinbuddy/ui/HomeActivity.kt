@@ -1,6 +1,7 @@
 package com.bayazidht.dongshinbuddy.ui
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,9 @@ import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.data.local.ChipsData
 import com.bayazidht.dongshinbuddy.databinding.ActivityHomeBinding
 import com.google.android.material.chip.Chip
+import androidx.core.net.toUri
+import com.bayazidht.dongshinbuddy.utils.AppConstants
+import com.bayazidht.dongshinbuddy.utils.CustomTabHelper
 
 class HomeActivity : AppCompatActivity() {
 
@@ -26,16 +30,22 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
+        setupQuestionsChips()
+        setupClickListeners()
+    }
+
+    private fun setupClickListeners() {
         binding.btnStartChat.setOnClickListener {
             startActivity(Intent(this, ChatActivity::class.java))
         }
-
-        setupQuestionsChips()
-
         binding.btnCampusMap.setOnClickListener {
-            val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("PREFILLED_QUERY", "Show me all campus buildings and locations with links")
-            startActivity(intent)
+            openChat("Show me all campus buildings and locations with links")
+        }
+        binding.btnHelpdesk.setOnClickListener {
+            openChat("Show me all contact details of university")
+        }
+        binding.cardLogo.setOnClickListener {
+            CustomTabHelper.openCustomTab(this, AppConstants.UNIVERSITY_URL)
         }
     }
 

@@ -4,9 +4,9 @@ object ChipsData {
     val questions = listOf(
         "Admission",
         "Requirements",
+        "Majors",
         "Scholarships",
         "Dormitory",
-        "Majors",
         "Contact"
     )
 

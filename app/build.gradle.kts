@@ -67,4 +67,6 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation(libs.core)
+
+    implementation("androidx.browser:browser:1.8.0")
 }
