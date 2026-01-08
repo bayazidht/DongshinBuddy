@@ -3,10 +3,7 @@ package com.bayazidht.dongshinbuddy.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.adapter.ChatAdapter
@@ -18,8 +15,10 @@ import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.viewmodel.ChatViewModel
 import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.FirebaseFirestore
+import androidx.core.view.isVisible
+import com.bayazidht.dongshinbuddy.data.local.ChipsData
 
-class MainActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var chatAdapter: ChatAdapter
@@ -53,27 +52,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSuggestionChips() {
-        val suggestions = listOf(
-            "Campus Map",
-            "Dormitory Rules",
-            "Daiso Location",
-            "Library Hours",
-            "International Building",
-            "How to pay tuition fee?",
-            "Bus Schedule",
-            "Nearby Halal Food",
-            "Gym and Fitness Center",
-            "Student ID card",
-            "Central Library"
-        )
-
         val chipGroup = binding.suggestionChipGroup
-
-        for (text in suggestions) {
+        ChipsData.suggestions.forEach { query ->
             val chip = layoutInflater.inflate(R.layout.item_chip, chipGroup, false) as Chip
-            chip.text = text
+            chip.text = query
             chip.setOnClickListener {
-                sendMessage(text)
+                sendMessage(query)
             }
             chipGroup.addView(chip)
         }
@@ -100,25 +84,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendMessage(query: String) {
-        if (binding.suggestionChipGroup.visibility == View.VISIBLE) {
+        if (binding.suggestionChipGroup.isVisible) {
             binding.suggestionChipGroup.visibility = View.GONE
         }
 
         val userMsg = ChatMessage(query, true)
         viewModel.messages.add(userMsg)
-        chatAdapter.notifyItemInserted(viewModel.messages.size - 1)
+
+        val userPos = viewModel.messages.size - 1
+        chatAdapter.notifyItemInserted(userPos)
         binding.messageInput.text.clear()
-        binding.chatRecyclerView.smoothScrollToPosition(viewModel.messages.size - 1)
+        updateScroll(userPos)
 
         viewModel.sendMessage { position ->
             runOnUiThread {
+                val targetPos =viewModel.messages.size
                 if (position == -1) {
-                    chatAdapter.notifyItemInserted(viewModel.messages.size - 1)
+                    chatAdapter.notifyItemInserted(targetPos)
                 } else {
                     chatAdapter.notifyItemChanged(position)
                 }
-                binding.chatRecyclerView.smoothScrollToPosition(viewModel.messages.size - 1)
+                updateScroll(targetPos)
             }
+        }
+    }
+    private fun updateScroll(position: Int) {
+        binding.chatRecyclerView.post {
+            binding.chatRecyclerView.smoothScrollToPosition(position)
         }
     }
 

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.ChatActivity">
 
     <RelativeLayout
         android:background="?attr/colorSurface"
@@ -40,10 +40,10 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
+        android:layout_above="@+id/suggestionChipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolBar"
-        android:layout_above="@+id/suggestionChipGroup"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"/>
 

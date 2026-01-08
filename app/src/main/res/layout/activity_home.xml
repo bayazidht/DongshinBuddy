@@ -115,63 +115,13 @@
             android:textStyle="bold" />
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupQuestions"
+            android:id="@+id/questionsChipGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:paddingHorizontal="24dp"
             app:chipSpacingVertical="0dp"
-            app:chipSpacingHorizontal="8dp">
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Admission"
-                android:textSize="13sp"
-                app:chipBackgroundColor="#262196F3"/>
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Requirements"
-                android:textSize="13sp"
-                app:chipBackgroundColor="#264CAF50"/>
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Scholarships"
-                android:textSize="13sp"
-                app:chipBackgroundColor="#26FF9800"/>
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dormitory"
-                android:textSize="13sp"
-                app:chipBackgroundColor="#269C27B0"/>
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Majors"
-                android:textSize="13sp"
-                app:chipBackgroundColor="#26009688"/>
-
-            <com.google.android.material.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Contact"
-                android:textSize="13sp"
-                app:chipBackgroundColor="#26F44336"/>
-
-        </com.google.android.material.chip.ChipGroup>
+            app:chipSpacingHorizontal="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
