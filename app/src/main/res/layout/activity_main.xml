@@ -24,9 +24,8 @@
         app:contentInsetStart="0dp"
         app:fabAlignmentMode="center"
         app:fabAnchorMode="cradle"
-        app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="10dp"
-        app:fabCradleVerticalOffset="10dp"
+        app:fabCradleMargin="8dp"
+        app:fabCradleRoundedCornerRadius="8dp"
         app:paddingBottomSystemWindowInsets="false">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -43,10 +42,7 @@
         android:id="@+id/fabChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:backgroundTint="@color/accent"
         android:src="@drawable/ic_ai_chat"
-        app:tint="@android:color/white"
-        app:layout_anchor="@id/bottomAppBar"
-        app:layout_anchorGravity="center|top" />
+        app:layout_anchor="@id/bottomAppBar"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

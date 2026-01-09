@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="I'm Dongshin Buddy"
-                    android:textColor="@color/accent"
+                    android:textColor="?attr/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -87,7 +87,7 @@
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:src="@drawable/ic_ai_chat"
-                    app:tint="@color/accent" />
+                    app:tint="?attr/colorPrimary" />
 
                 <TextView
                     android:layout_width="wrap_content"

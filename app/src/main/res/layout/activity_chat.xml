@@ -99,8 +99,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_send"
-            app:backgroundTint="@color/accent"
-            app:tint="@color/white"
             app:elevation="0dp"
             android:stateListAnimator="@null"
             app:fabCustomSize="46dp"

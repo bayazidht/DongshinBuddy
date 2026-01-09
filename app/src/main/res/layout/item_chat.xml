@@ -20,8 +20,8 @@
             android:layout_height="wrap_content"
             android:text="Hello! I am DongshinBuddy."
             android:autoLink="all"
-            android:textColorLink="#14D6ED"
-            android:textColor="#E2FFFFFF"
+            android:textColorLink="#A99A00"
+            android:textColor="?attr/colorOnPrimary"
             android:linksClickable="true"
             android:textSize="16sp" />
     </LinearLayout>
