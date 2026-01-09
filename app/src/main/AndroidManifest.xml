@@ -16,11 +16,14 @@
         android:theme="@style/Theme.DongshinBuddy"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.ChatActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:name=".ui.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.activities.ChatActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,34 +1,31 @@
-package com.bayazidht.dongshinbuddy.ui
+package com.bayazidht.dongshinbuddy.ui.fragments
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.data.local.ChipsData
-import com.bayazidht.dongshinbuddy.databinding.ActivityHomeBinding
-import com.google.android.material.chip.Chip
-import androidx.core.net.toUri
+import com.bayazidht.dongshinbuddy.databinding.FragmentHomeBinding
+import com.bayazidht.dongshinbuddy.ui.activities.ChatActivity
 import com.bayazidht.dongshinbuddy.utils.AppConstants
 import com.bayazidht.dongshinbuddy.utils.CustomTabHelper
+import com.google.android.material.chip.Chip
 
-class HomeActivity : AppCompatActivity() {
+class HomeFragment : Fragment() {
 
-    private lateinit var binding: ActivityHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupQuestionsChips()
         setupClickListeners()
@@ -36,21 +33,26 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.btnStartChat.setOnClickListener {
-            startActivity(Intent(this, ChatActivity::class.java))
+            startActivity(Intent(requireContext(), ChatActivity::class.java))
         }
+
         binding.btnCampusMap.setOnClickListener {
             openChat("Show me all campus buildings and locations with links")
         }
+
         binding.btnHelpdesk.setOnClickListener {
             openChat("Show me all contact details of university")
         }
+
         binding.cardLogo.setOnClickListener {
-            CustomTabHelper.openCustomTab(this, AppConstants.UNIVERSITY_URL)
+            CustomTabHelper.openCustomTab(requireContext(), AppConstants.UNIVERSITY_URL)
         }
     }
 
     private fun setupQuestionsChips() {
         val chipGroup = binding.questionsChipGroup
+        chipGroup.removeAllViews()
+
         ChipsData.questions.forEach { query ->
             val chip = layoutInflater.inflate(R.layout.item_chip, chipGroup, false) as Chip
             chip.text = query
@@ -62,8 +64,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun openChat(query: String) {
-        val intent = Intent(this, ChatActivity::class.java)
+        val intent = Intent(requireContext(), ChatActivity::class.java)
         intent.putExtra("PREFILLED_QUERY", query)
         startActivity(intent)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

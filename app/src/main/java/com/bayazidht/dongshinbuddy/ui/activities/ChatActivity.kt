@@ -1,4 +1,4 @@
-package com.bayazidht.dongshinbuddy.ui
+package com.bayazidht.dongshinbuddy.ui.activities
 
 import android.os.Bundle
 import android.util.Log
