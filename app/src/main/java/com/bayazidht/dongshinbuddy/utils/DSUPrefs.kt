@@ -1,4 +1,4 @@
-package com.bayazidht.dongshinbuddy.data.local
+package com.bayazidht.dongshinbuddy.utils
 
 import android.content.Context
 import android.content.SharedPreferences

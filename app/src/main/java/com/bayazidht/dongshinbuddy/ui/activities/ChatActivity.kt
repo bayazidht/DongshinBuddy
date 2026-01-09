@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.adapter.ChatAdapter
 import com.bayazidht.dongshinbuddy.api.RetrofitClient
-import com.bayazidht.dongshinbuddy.data.local.DSUPrefs
+import com.bayazidht.dongshinbuddy.utils.DSUPrefs
 import com.bayazidht.dongshinbuddy.data.repository.ChatRepository
 import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.viewmodel.ChatViewModel
