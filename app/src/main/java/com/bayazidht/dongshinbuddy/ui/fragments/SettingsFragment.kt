@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.bayazidht.dongshinbuddy.databinding.FragmentSettingsBinding
 import androidx.core.net.toUri
+import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.utils.SettingsPrefs
 
 class SettingsFragment : Fragment() {
@@ -28,7 +29,7 @@ class SettingsFragment : Fragment() {
         settingsPrefs = SettingsPrefs(requireContext())
 
         setupThemeSwitch()
-        setupClickListeners()
+        setupSettingsItems()
         displayAppVersion()
     }
 
@@ -45,22 +46,35 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun setupClickListeners() {
-        binding.btnAboutUs.setOnClickListener {
-
+    private fun setupSettingsItems() {
+        binding.itemAbout.apply {
+            itemTitle.text = "About Us"
+            itemIcon.setImageResource(R.drawable.ic_info)
+            rootLayout.setOnClickListener { }
         }
-
-        binding.btnContactUs.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = "mailto:bayazidht@gmail.com".toUri()
-                putExtra(Intent.EXTRA_SUBJECT, "Dongshin Buddy Support")
-            }
-            startActivity(intent)
+        binding.itemFeedback.apply {
+            itemTitle.text = "Feedback"
+            itemIcon.setImageResource(R.drawable.ic_email)
+            rootLayout.setOnClickListener { sendFeedback() }
         }
-
-        binding.btnShareApp.setOnClickListener {
-            shareApp()
+        binding.itemShare.apply {
+            itemTitle.text = "Share App"
+            itemIcon.setImageResource(R.drawable.ic_info)
+            rootLayout.setOnClickListener { shareApp() }
         }
+        binding.itemPrivacy.apply {
+            itemTitle.text = "Privacy Policy"
+            itemIcon.setImageResource(R.drawable.ic_privacy)
+            rootLayout.setOnClickListener { }
+        }
+    }
+
+    private fun sendFeedback() {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = "mailto:bayazidht@gmail.com".toUri()
+            putExtra(Intent.EXTRA_SUBJECT, "Dongshin Buddy Feedback")
+        }
+        startActivity(intent)
     }
 
     private fun shareApp() {

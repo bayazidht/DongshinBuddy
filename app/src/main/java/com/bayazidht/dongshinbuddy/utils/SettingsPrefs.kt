@@ -5,10 +5,10 @@ import android.content.SharedPreferences
 
 class SettingsPrefs (context: Context){
     private val preferences: SharedPreferences =
-        context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences("SETTINGS_PREFS", Context.MODE_PRIVATE)
 
     companion object {
-        private const val KEY_DARK_MODE = "DarkMode"
+        private const val KEY_DARK_MODE = "dark_mode"
     }
 
     var isDarkMode: Boolean
