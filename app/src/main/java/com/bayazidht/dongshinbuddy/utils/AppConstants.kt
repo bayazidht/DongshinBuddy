@@ -1,7 +1,8 @@
 package com.bayazidht.dongshinbuddy.utils
 
 object AppConstants {
-    const val UNIVERSITY_URL = "https://www.dsu.ac.kr/eng/"
-    const val CAMPUS_MAP_URL = "https://www.dsu.ac.kr/eng/?pCode=CampusMap"
-    const val EMERGENCY_PHONE = "tel:+82613303114"
+    const val FEEDBACK_MAIL = "coderspark.official@gmail.com"
+    const val ABOUT_US_URL = "https://sites.google.com/view/dongshinbuddy-about-us/"
+    const val PRIVACY_POLICY_URL = "https://sites.google.com/view/dongshinbuddy-privacy-policy/"
+
 }

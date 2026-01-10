@@ -9,7 +9,7 @@ class MainApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        val mySeedColor = "#0563BC".toColorInt()
+        val mySeedColor = "#5454EA".toColorInt()
         DynamicColors.applyToActivitiesIfAvailable(
             this,
             DynamicColorsOptions.Builder()

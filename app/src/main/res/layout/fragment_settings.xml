@@ -49,7 +49,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:contentDescription="@string/dark_mode"
-                    android:src="@drawable/ic_night"
+                    android:src="@drawable/ic_dark_mode"
                     android:layout_centerVertical="true"
                     app:tint="?attr/colorPrimary" />
 

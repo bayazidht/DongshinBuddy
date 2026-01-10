@@ -4,13 +4,14 @@ object ChipsData {
     val questions = listOf(
         "Admission",
         "Requirements",
-        "Majors"
+        "Departments",
+        "Scholarship",
+        "Contact"
     )
 
     val suggestions = listOf(
         "Campus Map",
-        "Dormitory Rules",
-        "Daiso Location",
+        "Tuition Fee",
         "Library Hours",
         "International Building"
     )

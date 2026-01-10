@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import com.bayazidht.dongshinbuddy.databinding.FragmentSettingsBinding
 import androidx.core.net.toUri
 import com.bayazidht.dongshinbuddy.R
+import com.bayazidht.dongshinbuddy.utils.AppConstants
+import com.bayazidht.dongshinbuddy.utils.CustomTabHelper
 import com.bayazidht.dongshinbuddy.utils.SettingsPrefs
 
 class SettingsFragment : Fragment() {
@@ -50,7 +52,9 @@ class SettingsFragment : Fragment() {
         binding.itemAbout.apply {
             itemTitle.text = "About Us"
             itemIcon.setImageResource(R.drawable.ic_info)
-            rootLayout.setOnClickListener { }
+            rootLayout.setOnClickListener {
+                CustomTabHelper.openCustomTab(requireContext(), AppConstants.ABOUT_US_URL)
+            }
         }
         binding.itemFeedback.apply {
             itemTitle.text = "Feedback"
@@ -65,27 +69,29 @@ class SettingsFragment : Fragment() {
         binding.itemPrivacy.apply {
             itemTitle.text = "Privacy Policy"
             itemIcon.setImageResource(R.drawable.ic_privacy)
-            rootLayout.setOnClickListener { }
+            rootLayout.setOnClickListener {
+                CustomTabHelper.openCustomTab(requireContext(), AppConstants.PRIVACY_POLICY_URL)
+            }
         }
     }
 
     private fun sendFeedback() {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = "mailto:bayazidht@gmail.com".toUri()
-            putExtra(Intent.EXTRA_SUBJECT, "Dongshin Buddy Feedback")
+            data = "mailto:${AppConstants.FEEDBACK_MAIL}".toUri()
+            putExtra(Intent.EXTRA_SUBJECT, "DongshinBuddy Feedback")
         }
         startActivity(intent)
     }
 
     private fun shareApp() {
         val shareMessage = """
-            Hi! I'm using Dongshin Buddy, an amazing AI companion for our university. 
+            Hi! I'm using DongshinBuddy, an amazing AI companion for our university. 
             Download it now: https://play.google.com/store/apps/details?id=${requireContext().packageName}
         """.trimIndent()
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(Intent.EXTRA_SUBJECT, "Check out Dongshin Buddy")
+            putExtra(Intent.EXTRA_SUBJECT, "Check out DongshinBuddy")
             putExtra(Intent.EXTRA_TEXT, shareMessage)
         }
         startActivity(Intent.createChooser(intent, "Share via"))
