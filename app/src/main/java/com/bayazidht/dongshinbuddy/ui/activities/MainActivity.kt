@@ -2,10 +2,12 @@ package com.bayazidht.dongshinbuddy.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.databinding.ActivityMainBinding
@@ -44,9 +46,26 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.bottomNavigation.menu.findItem(destination.id)?.let {
+                it.isChecked = true
+            }
+        }
 
         binding.fabChat.setOnClickListener {
             openChatActivity()
+        }
+
+        setUpBackAction(navController)
+    }
+
+    private fun setUpBackAction( navController: NavController) {
+        onBackPressedDispatcher.addCallback(this) {
+            if (navController.currentDestination?.id == R.id.nav_home) {
+                finish()
+            } else {
+                binding.bottomNavigation.selectedItemId = R.id.nav_home
+            }
         }
     }
 
