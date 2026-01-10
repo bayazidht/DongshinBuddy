@@ -9,7 +9,7 @@ import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.adapter.ChatAdapter
 import com.bayazidht.dongshinbuddy.api.RetrofitClient
 import com.bayazidht.dongshinbuddy.utils.DSUPrefs
-import com.bayazidht.dongshinbuddy.data.repository.ChatRepository
+import com.bayazidht.dongshinbuddy.data.repository.AppRepository
 import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.viewmodel.ChatViewModel
 import com.google.android.material.chip.Chip
@@ -33,7 +33,7 @@ class ChatActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         dsuPrefs = DSUPrefs(this)
-        val repository = ChatRepository(RetrofitClient.groqService, FirebaseFirestore.getInstance())
+        val repository = AppRepository(RetrofitClient.groqService, FirebaseFirestore.getInstance())
         viewModel = ChatViewModel(repository)
 
         setupFinalContext()

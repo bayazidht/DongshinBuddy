@@ -3,13 +3,13 @@ package com.bayazidht.dongshinbuddy.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bayazidht.dongshinbuddy.BuildConfig
-import com.bayazidht.dongshinbuddy.data.repository.ChatRepository
+import com.bayazidht.dongshinbuddy.data.repository.AppRepository
 import com.bayazidht.dongshinbuddy.model.*
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.launch
 
-class ChatViewModel(private val repository: ChatRepository) : ViewModel() {
+class ChatViewModel(private val repository: AppRepository) : ViewModel() {
 
     val messages = mutableListOf<ChatMessage>()
     var finalContext: String = "Please wait, initializing assistant..."

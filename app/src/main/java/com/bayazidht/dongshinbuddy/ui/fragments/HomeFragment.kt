@@ -13,10 +13,10 @@ import com.bayazidht.dongshinbuddy.data.local.ChipsData
 import com.bayazidht.dongshinbuddy.data.local.LinksData
 import com.bayazidht.dongshinbuddy.databinding.FragmentHomeBinding
 import com.bayazidht.dongshinbuddy.ui.activities.ChatActivity
-import com.bayazidht.dongshinbuddy.utils.AppConstants
 import com.bayazidht.dongshinbuddy.utils.CustomTabHelper
 import com.bayazidht.dongshinbuddy.utils.DSUPrefs
 import com.google.android.material.chip.Chip
+import kotlin.math.abs
 
 class HomeFragment : Fragment() {
 
@@ -32,10 +32,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupAppBar()
+        setupClickListeners()
+
         dsuPrefs = DSUPrefs(requireContext())
         setupQuestionsChips()
         setupClickListeners()
         setupQuickLinks()
+    }
+
+    private fun setupAppBar() {
+        binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val fraction = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
+            if (fraction > 0.8f) {
+                binding.collapsedContent.visibility = View.VISIBLE
+                binding.collapsedContent.alpha = (fraction - 0.8f) * 5f
+            } else {
+                binding.collapsedContent.alpha = 0f
+                binding.collapsedContent.visibility = View.INVISIBLE
+            }
+        }
     }
 
     private fun setupClickListeners() {
@@ -49,10 +65,6 @@ class HomeFragment : Fragment() {
 
         binding.btnHelpdesk.setOnClickListener {
             openChat("Show me all contact details of university")
-        }
-
-        binding.cardLogo.setOnClickListener {
-            CustomTabHelper.openCustomTab(requireContext(), AppConstants.UNIVERSITY_URL)
         }
     }
 

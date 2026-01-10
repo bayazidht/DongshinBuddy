@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.api.RetrofitClient
-import com.bayazidht.dongshinbuddy.data.repository.ChatRepository
+import com.bayazidht.dongshinbuddy.data.repository.AppRepository
 import com.bayazidht.dongshinbuddy.databinding.ActivityMainBinding
 import com.bayazidht.dongshinbuddy.utils.DSUPrefs
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var dsuPrefs: DSUPrefs
-    private lateinit var repository: ChatRepository
+    private lateinit var repository: AppRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         dsuPrefs = DSUPrefs(this)
-        repository = ChatRepository(RetrofitClient.groqService, FirebaseFirestore.getInstance())
+        repository = AppRepository(RetrofitClient.groqService, FirebaseFirestore.getInstance())
         syncFirebaseData()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

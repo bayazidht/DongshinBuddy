@@ -4,7 +4,7 @@ import com.bayazidht.dongshinbuddy.api.GroqService
 import com.bayazidht.dongshinbuddy.model.GroqRequest
 import com.google.firebase.firestore.FirebaseFirestore
 
-class ChatRepository(
+class AppRepository(
     private val groqService: GroqService,
     private val db: FirebaseFirestore
 ) {
