@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.data.local.ChipsData
+import com.bayazidht.dongshinbuddy.data.local.LinksData
 import com.bayazidht.dongshinbuddy.databinding.FragmentHomeBinding
 import com.bayazidht.dongshinbuddy.ui.activities.ChatActivity
 import com.bayazidht.dongshinbuddy.utils.AppConstants
@@ -32,6 +35,7 @@ class HomeFragment : Fragment() {
         dsuPrefs = DSUPrefs(requireContext())
         setupQuestionsChips()
         setupClickListeners()
+        setupQuickLinks()
     }
 
     private fun setupClickListeners() {
@@ -66,6 +70,48 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setupQuickLinks() {
+        val container = binding.quickLinksContainer
+
+        val savedLinks = dsuPrefs.getSavedQuickLinks()
+        val linksList = savedLinks.ifEmpty { LinksData.defaultLinks }
+
+        activity?.runOnUiThread {
+            container.removeAllViews()
+
+            if (linksList.isEmpty()) {
+                return@runOnUiThread
+            }
+
+            linksList.forEach { link ->
+                val itemView = layoutInflater.inflate(R.layout.item_settings, container, false)
+
+                val titleView = itemView.findViewById<TextView>(R.id.itemTitle)
+                val iconView = itemView.findViewById<ImageView>(R.id.itemIcon)
+
+                titleView.text = link["title"] ?: "Untitled"
+
+                val iconName = link["icon"] ?: "ic_link"
+                val resourceId = resources.getIdentifier(iconName, "drawable", requireContext().packageName)
+
+                if (resourceId != 0) {
+                    iconView.setImageResource(resourceId)
+                } else {
+                    iconView.setImageResource(R.drawable.ic_link)
+                }
+
+                itemView.setOnClickListener {
+                    val url = link["url"] ?: ""
+                    if (url.isNotEmpty()) {
+                        CustomTabHelper.openCustomTab(requireContext(), url)
+                    }
+                }
+
+                container.addView(itemView)
+            }
+        }
+    }
+
     private fun openChat(query: String) {
         val intent = Intent(requireContext(), ChatActivity::class.java)
         intent.putExtra("PREFILLED_QUERY", query)
@@ -75,6 +121,7 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         setupQuestionsChips()
+        setupQuickLinks()
     }
 
     override fun onDestroyView() {

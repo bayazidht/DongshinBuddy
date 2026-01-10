@@ -90,6 +90,16 @@ class MainActivity : AppCompatActivity() {
             },
             onFailure = { Log.e("Sync", "Chips sync failed: ${it.message}") }
         )
+
+        repository.fetchQuickLinks(
+            onSuccess = { links, version ->
+                if (version > dsuPrefs.getLinksVersion()) {
+                    dsuPrefs.saveQuickLinks(links, version)
+                    Log.d("Sync", "Quick Links updated to v$version")
+                }
+            },
+            onFailure = { Log.e("Sync", "Links sync failed: ${it.message}") }
+        )
     }
 
     private fun setUpBackAction( navController: NavController) {

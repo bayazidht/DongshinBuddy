@@ -16,4 +16,5 @@
     <string name="support_and_info"><![CDATA[Support & Info]]></string>
     <string name="back">Back</string>
     <string name="chat_input_hint">Ask me anything…</string>
+    <string name="quick_links">Quick Links</string>
 </resources>

@@ -39,4 +39,32 @@ class ChatRepository(
             }
             .addOnFailureListener { onFailure(it) }
     }
+
+    fun fetchQuickLinks(onSuccess: (List<Map<String, String>>, Int) -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection("dongshin_buddy").document("quick_links")
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val version = document.getLong("version")?.toInt() ?: 0
+                    val linksList = mutableListOf<Map<String, String>>()
+
+                    val linksMap = document.get("links") as? Map<*, *>
+
+                    linksMap?.forEach { (_, value) ->
+                        if (value is Map<*, *>) {
+                            val linkData = mutableMapOf<String, String>()
+                            linkData["title"] = value["title"]?.toString() ?: ""
+                            linkData["url"] = value["url"]?.toString() ?: ""
+                            linkData["icon"] = value["icon"]?.toString() ?: ""
+
+                            if (linkData["title"]!!.isNotEmpty()) {
+                                linksList.add(linkData)
+                            }
+                        }
+                    }
+                    onSuccess(linksList, version)
+                }
+            }
+            .addOnFailureListener { onFailure(it) }
+    }
 }
