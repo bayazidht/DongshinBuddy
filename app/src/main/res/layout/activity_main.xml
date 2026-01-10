@@ -44,7 +44,7 @@
         android:id="@+id/fabChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="AI Chat"
+        android:contentDescription="@string/start_chat_title"
         android:src="@drawable/ic_ai_chat"
         app:elevation="0dp"
         android:stateListAnimator="@null"

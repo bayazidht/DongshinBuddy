@@ -40,7 +40,7 @@ class ChatAdapter(private val chatList: List<ChatMessage>) :
                 aiContainer.visibility = View.VISIBLE
                 userContainer.visibility = View.GONE
 
-                if (message == "Typing...") {
+                if (message == "Thinking...") {
                     animateTyping(aiText)
                 } else {
                     aiText.clearAnimation()

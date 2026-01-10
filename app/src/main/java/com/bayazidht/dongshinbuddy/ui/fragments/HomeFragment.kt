@@ -12,12 +12,14 @@ import com.bayazidht.dongshinbuddy.databinding.FragmentHomeBinding
 import com.bayazidht.dongshinbuddy.ui.activities.ChatActivity
 import com.bayazidht.dongshinbuddy.utils.AppConstants
 import com.bayazidht.dongshinbuddy.utils.CustomTabHelper
+import com.bayazidht.dongshinbuddy.utils.DSUPrefs
 import com.google.android.material.chip.Chip
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    private lateinit var dsuPrefs: DSUPrefs
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -27,6 +29,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dsuPrefs = DSUPrefs(requireContext())
         setupQuestionsChips()
         setupClickListeners()
     }
@@ -51,9 +54,9 @@ class HomeFragment : Fragment() {
 
     private fun setupQuestionsChips() {
         val chipGroup = binding.questionsChipGroup
+        val questionsList = dsuPrefs.getSavedQuestions().ifEmpty { ChipsData.questions }
         chipGroup.removeAllViews()
-
-        ChipsData.questions.forEach { query ->
+        questionsList.forEach { query ->
             val chip = layoutInflater.inflate(R.layout.item_chip, chipGroup, false) as Chip
             chip.text = query
             chip.setOnClickListener {
@@ -67,6 +70,11 @@ class HomeFragment : Fragment() {
         val intent = Intent(requireContext(), ChatActivity::class.java)
         intent.putExtra("PREFILLED_QUERY", query)
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setupQuestionsChips()
     }
 
     override fun onDestroyView() {

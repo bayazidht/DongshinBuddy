@@ -24,4 +24,19 @@ class ChatRepository(
             }
             .addOnFailureListener { onFailure(it) }
     }
+
+    fun fetchChipsInfo(onSuccess: (List<String>, List<String>, Int) -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection("dongshin_buddy")
+            .document("chips_data")
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val questions = document.get("questions") as? List<String> ?: emptyList()
+                    val suggestions = document.get("suggestions") as? List<String> ?: emptyList()
+                    val version = document.getLong("version")?.toInt() ?: 0
+                    onSuccess(questions, suggestions, version)
+                }
+            }
+            .addOnFailureListener { onFailure(it) }
+    }
 }

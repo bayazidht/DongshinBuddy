@@ -1,7 +1,6 @@
 package com.bayazidht.dongshinbuddy.ui.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +16,7 @@ import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.core.view.isVisible
 import com.bayazidht.dongshinbuddy.data.local.ChipsData
+import com.bayazidht.dongshinbuddy.data.local.ContextData
 import com.bayazidht.dongshinbuddy.databinding.ActivityChatBinding
 
 class ChatActivity : AppCompatActivity() {
@@ -36,12 +36,10 @@ class ChatActivity : AppCompatActivity() {
         val repository = ChatRepository(RetrofitClient.groqService, FirebaseFirestore.getInstance())
         viewModel = ChatViewModel(repository)
 
-        viewModel.finalContext = dsuPrefs.getCachedContext()
-
+        setupFinalContext()
         setupChatRecyclerView()
         setupClickListeners()
-
-        checkForDataUpdates(repository)
+        setupSuggestionChips()
 
         val autoQuery = intent.getStringExtra("PREFILLED_QUERY")
         if (autoQuery != null) {
@@ -49,13 +47,22 @@ class ChatActivity : AppCompatActivity() {
         } else {
             binding.messageInput.requestFocus()
         }
+    }
 
-        setupSuggestionChips()
+    private fun setupFinalContext() {
+        val savedContext = dsuPrefs.getCachedContext()
+        if (savedContext.isNotEmpty()) {
+            viewModel.finalContext = savedContext
+        } else {
+            viewModel.finalContext = ContextData.DEFAULT_CONTEXT
+        }
     }
 
     private fun setupSuggestionChips() {
         val chipGroup = binding.suggestionChipGroup
-        ChipsData.suggestions.forEach { query ->
+        val suggestionsList = dsuPrefs.getSavedSuggestions().ifEmpty { ChipsData.suggestions }
+        chipGroup.removeAllViews()
+        suggestionsList.forEach { query ->
             val chip = layoutInflater.inflate(R.layout.item_chip, chipGroup, false) as Chip
             chip.text = query
             chip.setOnClickListener {
@@ -74,7 +81,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        binding.sendButton.setOnClickListener {
+        binding.fabSend.setOnClickListener {
             val userText = binding.messageInput.text.toString().trim()
             if (userText.isNotBlank()) {
                 sendMessage(userText)
@@ -114,20 +121,5 @@ class ChatActivity : AppCompatActivity() {
         binding.chatRecyclerView.post {
             binding.chatRecyclerView.smoothScrollToPosition(position)
         }
-    }
-
-    private fun checkForDataUpdates(repository: ChatRepository) {
-        repository.fetchUniversityInfo(
-            onSuccess = { context, version ->
-                if (version > dsuPrefs.getLocalVersion()) {
-                    viewModel.finalContext = context
-                    dsuPrefs.saveContext(context, version)
-                    Log.d("UpdateCheck", "New version $version applied.")
-                }
-            },
-            onFailure = { error ->
-                Log.e("UpdateCheck", "Failed: ${error.message}")
-            }
-        )
     }
 }

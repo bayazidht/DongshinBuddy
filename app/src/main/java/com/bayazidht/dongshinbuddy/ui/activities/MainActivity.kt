@@ -2,6 +2,7 @@ package com.bayazidht.dongshinbuddy.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +11,17 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.bayazidht.dongshinbuddy.R
+import com.bayazidht.dongshinbuddy.api.RetrofitClient
+import com.bayazidht.dongshinbuddy.data.repository.ChatRepository
 import com.bayazidht.dongshinbuddy.databinding.ActivityMainBinding
+import com.bayazidht.dongshinbuddy.utils.DSUPrefs
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var dsuPrefs: DSUPrefs
+    private lateinit var repository: ChatRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +33,10 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
+
+        dsuPrefs = DSUPrefs(this)
+        repository = ChatRepository(RetrofitClient.groqService, FirebaseFirestore.getInstance())
+        syncFirebaseData()
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -57,6 +68,28 @@ class MainActivity : AppCompatActivity() {
         }
 
         setUpBackAction(navController)
+    }
+
+    private fun syncFirebaseData() {
+        repository.fetchUniversityInfo(
+            onSuccess = { context, version ->
+                if (version > dsuPrefs.getLocalVersion()) {
+                    dsuPrefs.saveContext(context, version)
+                    Log.d("Sync", "University context updated to v$version")
+                }
+            },
+            onFailure = { Log.e("Sync", "Context sync failed: ${it.message}") }
+        )
+
+        repository.fetchChipsInfo(
+            onSuccess = { questions, suggestions, version ->
+                if (version > dsuPrefs.getChipsVersion()) {
+                    dsuPrefs.saveChipsData(questions, suggestions, version)
+                    Log.d("Sync", "Chips data updated to v$version")
+                }
+            },
+            onFailure = { Log.e("Sync", "Chips sync failed: ${it.message}") }
+        )
     }
 
     private fun setUpBackAction( navController: NavController) {

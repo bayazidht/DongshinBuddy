@@ -31,14 +31,14 @@
                     android:id="@+id/tvWelcome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hello!"
+                    android:text="@string/home_title_1"
                     android:textSize="28sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="I'm Dongshin Buddy"
+                    android:text="@string/home_title_2"
                     android:textColor="?attr/colorPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -52,6 +52,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
                     android:src="@drawable/dsu_logo"/>
             </com.google.android.material.card.MaterialCardView>
 
@@ -62,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="8dp"
-            android:text="Your AI guide to Dongshin University"
+            android:text="@string/home_subtitle"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="14sp" />
 
@@ -86,6 +87,7 @@
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="56dp"
+                    android:contentDescription="@string/start_chat_title"
                     android:src="@drawable/ic_ai_chat"
                     app:tint="?attr/colorPrimary" />
 
@@ -93,14 +95,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Start AI Conversation"
+                    android:text="@string/start_chat_title"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chat with our assistant for instant help"
+                    android:text="@string/start_chat_subtitle"
                     android:textSize="12sp"
                     android:textColor="?attr/colorOnSurfaceVariant"/>
             </LinearLayout>
@@ -112,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
-            android:text="Quick Questions"
+            android:text="@string/quick_questions"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -130,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="24dp"
-            android:text="Explore Campus"
+            android:text="@string/explore_campus"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -156,16 +158,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:contentDescription="@string/campus_map"
                         android:src="@drawable/ic_map"
-                        app:tint="?attr/colorControlNormal"/>
+                        app:tint="?attr/colorPrimary"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Campus Map"
+                        android:text="@string/campus_map"
                         android:layout_marginTop="5dp"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -182,16 +186,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
                     <ImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:contentDescription="@string/helpdesk"
                         android:src="@drawable/ic_helpdesk"
-                        app:tint="?attr/colorControlNormal"/>
+                        app:tint="?attr/colorPrimary"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Helpdesk"
+                        android:text="@string/helpdesk"
                         android:layout_marginTop="5dp"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
