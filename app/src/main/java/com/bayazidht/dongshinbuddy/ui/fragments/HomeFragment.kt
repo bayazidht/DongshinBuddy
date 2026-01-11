@@ -13,6 +13,7 @@ import com.bayazidht.dongshinbuddy.data.local.ChipsData
 import com.bayazidht.dongshinbuddy.data.local.LinksData
 import com.bayazidht.dongshinbuddy.databinding.FragmentHomeBinding
 import com.bayazidht.dongshinbuddy.ui.activities.ChatActivity
+import com.bayazidht.dongshinbuddy.utils.AppConstants
 import com.bayazidht.dongshinbuddy.utils.CustomTabHelper
 import com.bayazidht.dongshinbuddy.utils.DSUPrefs
 import com.google.android.material.chip.Chip
@@ -60,11 +61,11 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnCampusMap.setOnClickListener {
-            openChat("Show me all campus buildings and locations with links")
+            openChat(AppConstants.CAMPUS_MAP_PROMPT)
         }
 
         binding.btnHelpdesk.setOnClickListener {
-            openChat("Show me all contact details of university")
+            openChat(AppConstants.HELP_DESK_PROMPT)
         }
     }
 

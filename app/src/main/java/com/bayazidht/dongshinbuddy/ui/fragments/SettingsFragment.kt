@@ -1,6 +1,8 @@
 package com.bayazidht.dongshinbuddy.ui.fragments
 
+import SettingsPrefs
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +14,6 @@ import androidx.core.net.toUri
 import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.utils.AppConstants
 import com.bayazidht.dongshinbuddy.utils.CustomTabHelper
-import com.bayazidht.dongshinbuddy.utils.SettingsPrefs
 
 class SettingsFragment : Fragment() {
 
@@ -36,13 +37,21 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupThemeSwitch() {
-        binding.switchDarkMode.isChecked = settingsPrefs.isDarkMode
+        val currentTheme = settingsPrefs.themeMode
+        if (currentTheme == SettingsPrefs.THEME_SYSTEM) {
+            val isSystemDark = (resources.configuration.uiMode and
+                    Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            binding.switchDarkMode.isChecked = isSystemDark
+        } else {
+            binding.switchDarkMode.isChecked = currentTheme == SettingsPrefs.THEME_DARK
+        }
 
         binding.switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
-            settingsPrefs.isDarkMode = isChecked
             if (isChecked) {
+                settingsPrefs.themeMode = SettingsPrefs.THEME_DARK
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             } else {
+                settingsPrefs.themeMode = SettingsPrefs.THEME_LIGHT
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
@@ -51,14 +60,14 @@ class SettingsFragment : Fragment() {
     private fun setupSettingsItems() {
         binding.itemAbout.apply {
             itemTitle.text = "About Us"
-            itemIcon.setImageResource(R.drawable.ic_info)
+            itemIcon.setImageResource(R.drawable.ic_about_us)
             rootLayout.setOnClickListener {
                 CustomTabHelper.openCustomTab(requireContext(), AppConstants.ABOUT_US_URL)
             }
         }
         binding.itemFeedback.apply {
             itemTitle.text = "Feedback"
-            itemIcon.setImageResource(R.drawable.ic_email)
+            itemIcon.setImageResource(R.drawable.ic_feedback)
             rootLayout.setOnClickListener { sendFeedback() }
         }
         binding.itemShare.apply {

@@ -1,11 +1,13 @@
 package com.bayazidht.dongshinbuddy.ui.activities
 
+import SettingsPrefs
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
@@ -71,6 +73,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         setUpBackAction(navController)
+        setupTheme()
+    }
+
+    private fun setupTheme() {
+        val settingsPrefs = SettingsPrefs(this)
+        when (settingsPrefs.themeMode) {
+            SettingsPrefs.THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            SettingsPrefs.THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        }
     }
 
     private fun syncFirebaseData() {

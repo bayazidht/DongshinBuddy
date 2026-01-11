@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class ChatViewModel(private val repository: AppRepository) : ViewModel() {
 
     val messages = mutableListOf<ChatMessage>()
-    var finalContext: String = "Please wait, initializing assistant..."
+    var finalContext: String = "Please wait, initializing AI..."
     var aiConfig: AIConfig = AIConfig()
     private val animationDelay = 10L
 
@@ -72,7 +72,7 @@ class ChatViewModel(private val repository: AppRepository) : ViewModel() {
 
         val chatSession = geminiModel.startChat(history = historyList)
         val response = chatSession.sendMessage(query)
-        return response.text ?: "No response from Gemini"
+        return response.text ?: "No response from AI model"
     }
 
     private suspend fun callGroq(query: String): String {
