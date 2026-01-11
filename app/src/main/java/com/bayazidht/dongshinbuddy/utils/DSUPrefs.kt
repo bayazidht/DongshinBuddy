@@ -2,8 +2,10 @@ package com.bayazidht.dongshinbuddy.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.bayazidht.dongshinbuddy.data.repository.AIConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import androidx.core.content.edit
 
 class DSUPrefs(context: Context) {
     private val prefs: SharedPreferences =
@@ -19,6 +21,12 @@ class DSUPrefs(context: Context) {
 
         private const val KEY_QUICK_LINKS = "quick_links_data"
         private const val KEY_LINKS_VERSION = "links_version"
+
+        private const val KEY_AI_CONFIG = "ai_config"
+    }
+    fun saveAIConfig(config: AIConfig) {
+        val json = Gson().toJson(config)
+        prefs.edit { putString(KEY_AI_CONFIG, json) }
     }
     fun saveContext(contextData: String, version: Int) {
         prefs.edit().apply {
@@ -43,6 +51,10 @@ class DSUPrefs(context: Context) {
             putInt(KEY_LINKS_VERSION, version)
             apply()
         }
+    }
+    fun getAIConfig(): AIConfig {
+        val json = prefs.getString(KEY_AI_CONFIG, null) ?: return AIConfig()
+        return Gson().fromJson(json, AIConfig::class.java)
     }
 
     fun getCachedContext(): String = prefs.getString(KEY_CACHED_CONTEXT, "") ?: ""

@@ -71,6 +71,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun syncFirebaseData() {
+        repository.fetchAIConfig { config ->
+            dsuPrefs.saveAIConfig(config)
+            Log.d("Sync", "AI Config: primaryAi=${config.primaryAi}, groqModel=${config.groqModel}, geminiModel=${config.geminiModel},underMaintenance=${config.underMaintenance}")
+        }
+
         repository.fetchUniversityInfo(
             onSuccess = { context, version ->
                 if (version > dsuPrefs.getLocalVersion()) {

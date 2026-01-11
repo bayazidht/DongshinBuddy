@@ -63,7 +63,7 @@ class SettingsFragment : Fragment() {
         }
         binding.itemShare.apply {
             itemTitle.text = "Share App"
-            itemIcon.setImageResource(R.drawable.ic_info)
+            itemIcon.setImageResource(R.drawable.ic_share)
             rootLayout.setOnClickListener { shareApp() }
         }
         binding.itemPrivacy.apply {

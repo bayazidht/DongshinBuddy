@@ -2,6 +2,7 @@ package com.bayazidht.dongshinbuddy.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 class SettingsPrefs (context: Context){
     private val preferences: SharedPreferences =
@@ -13,5 +14,5 @@ class SettingsPrefs (context: Context){
 
     var isDarkMode: Boolean
         get() = preferences.getBoolean(KEY_DARK_MODE, false)
-        set(value) = preferences.edit().putBoolean(KEY_DARK_MODE, value).apply()
+        set(value) = preferences.edit { putBoolean(KEY_DARK_MODE, value) }
 }

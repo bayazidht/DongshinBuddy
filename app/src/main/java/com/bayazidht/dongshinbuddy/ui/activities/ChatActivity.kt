@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.core.view.isVisible
 import com.bayazidht.dongshinbuddy.R
 import com.bayazidht.dongshinbuddy.adapter.ChatAdapter
 import com.bayazidht.dongshinbuddy.api.RetrofitClient
@@ -14,10 +15,10 @@ import com.bayazidht.dongshinbuddy.model.ChatMessage
 import com.bayazidht.dongshinbuddy.viewmodel.ChatViewModel
 import com.google.android.material.chip.Chip
 import com.google.firebase.firestore.FirebaseFirestore
-import androidx.core.view.isVisible
 import com.bayazidht.dongshinbuddy.data.local.ChipsData
 import com.bayazidht.dongshinbuddy.data.local.ContextData
 import com.bayazidht.dongshinbuddy.databinding.ActivityChatBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ChatActivity : AppCompatActivity() {
 
@@ -36,13 +37,41 @@ class ChatActivity : AppCompatActivity() {
         val repository = AppRepository(RetrofitClient.groqService, FirebaseFirestore.getInstance())
         viewModel = ChatViewModel(repository)
 
+        val localConfig = dsuPrefs.getAIConfig()
+        viewModel.aiConfig = localConfig
+
         setupFinalContext()
         setupChatRecyclerView()
         setupClickListeners()
         setupSuggestionChips()
 
-        val autoQuery = intent.getStringExtra("PREFILLED_QUERY")
-        if (autoQuery != null) {
+        if (localConfig.underMaintenance) {
+            showMaintenanceUI()
+        } else {
+            openAutoQuery()
+        }
+    }
+
+    private fun showMaintenanceUI() {
+        runOnUiThread {
+            binding.messageInput.isEnabled = false
+            binding.fabSend.isEnabled = false
+            binding.suggestionChipGroup.visibility = View.GONE
+
+            binding.messageInput.hint = "Under maintenance..."
+
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Maintenance Mode")
+                .setMessage("We are updating our AI systems. Please try again later.")
+                .setCancelable(false)
+                .setPositiveButton("OK") { _, _ -> finish() }
+                .show()
+        }
+    }
+
+    private fun openAutoQuery() {
+        val autoQuery = intent.getStringExtra("PREFILLED_QUERY")?:""
+        if (autoQuery.isNotEmpty()) {
             sendMessage(autoQuery)
         } else {
             binding.messageInput.requestFocus()
@@ -51,16 +80,15 @@ class ChatActivity : AppCompatActivity() {
 
     private fun setupFinalContext() {
         val savedContext = dsuPrefs.getCachedContext()
-        if (savedContext.isNotEmpty()) {
-            viewModel.finalContext = savedContext
-        } else {
-            viewModel.finalContext = ContextData.DEFAULT_CONTEXT
+        viewModel.finalContext = savedContext.ifEmpty {
+            ContextData.DEFAULT_CONTEXT
         }
     }
 
     private fun setupSuggestionChips() {
         val chipGroup = binding.suggestionChipGroup
         val suggestionsList = dsuPrefs.getSavedSuggestions().ifEmpty { ChipsData.suggestions }
+
         chipGroup.removeAllViews()
         suggestionsList.forEach { query ->
             val chip = layoutInflater.inflate(R.layout.item_chip, chipGroup, false) as Chip
@@ -103,23 +131,28 @@ class ChatActivity : AppCompatActivity() {
         val userPos = viewModel.messages.size - 1
         chatAdapter.notifyItemInserted(userPos)
         binding.messageInput.text.clear()
-        updateScroll(userPos)
+        updateScroll(userPos, false)
 
-        viewModel.sendMessage { position ->
+        viewModel.sendMessage { position, isAnimating ->
             runOnUiThread {
-                val targetPos =viewModel.messages.size
-                if (position == -1) {
-                    chatAdapter.notifyItemInserted(targetPos)
+                chatAdapter.notifyItemChanged(position)
+
+                if (!isAnimating) {
+                    updateScroll(position, true)
                 } else {
-                    chatAdapter.notifyItemChanged(position)
+                    updateScroll(position, false)
                 }
-                updateScroll(targetPos)
             }
         }
     }
-    private fun updateScroll(position: Int) {
+
+    private fun updateScroll(position: Int, isSmooth: Boolean) {
         binding.chatRecyclerView.post {
-            binding.chatRecyclerView.smoothScrollToPosition(position)
+            if (isSmooth) {
+                binding.chatRecyclerView.smoothScrollToPosition(position)
+            } else {
+                binding.chatRecyclerView.scrollToPosition(position)
+            }
         }
     }
 }

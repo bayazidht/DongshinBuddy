@@ -1,5 +1,6 @@
 package com.bayazidht.dongshinbuddy.data.repository
 
+import android.util.Log
 import com.bayazidht.dongshinbuddy.api.GroqService
 import com.bayazidht.dongshinbuddy.model.GroqRequest
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,12 +12,24 @@ class AppRepository(
     suspend fun getGroqResponse(apiKey: String, request: GroqRequest) =
         groqService.getCompletion(apiKey, request)
 
+    fun fetchAIConfig(onSuccess: (AIConfig) -> Unit) {
+        db.collection("dongshin_buddy").document("ai_config")
+            .get()
+            .addOnSuccessListener { document ->
+                val config = document.toObject(AIConfig::class.java) ?: AIConfig()
+                onSuccess(config)
+
+                Log.d("FirebaseCheck", "Full Data: ${document.data}")
+            }
+            .addOnFailureListener { onSuccess(AIConfig()) }
+    }
+
     fun fetchUniversityInfo(onSuccess: (String, Int) -> Unit, onFailure: (Exception) -> Unit) {
         db.collection("dongshin_buddy")
             .document("university_info")
             .get()
             .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
+                if (document.exists()) {
                     val version = document.getLong("version")?.toInt() ?: 0
                     val context = document.getString("context") ?: ""
                     onSuccess(context, version)
