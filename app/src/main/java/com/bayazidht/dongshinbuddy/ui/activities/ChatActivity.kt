@@ -79,7 +79,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun setupFinalContext() {
-        val savedContext = dsuPrefs.getCachedContext()
+        val savedContext = dsuPrefs.getAiContext()
         viewModel.finalContext = savedContext.ifEmpty {
             ContextData.DEFAULT_CONTEXT
         }
