@@ -70,5 +70,5 @@ dependencies {
 
     implementation(libs.core)
 
-    implementation("androidx.browser:browser:1.8.0")
+    implementation(libs.androidx.browser)
 }
